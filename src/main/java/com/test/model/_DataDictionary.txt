@@ -1,0 +1,67 @@
+Table: wx_activity_explain
+-------------------+--------------+------+-----+---------+---------
+ Field             | Type         | Null | Key | Default | Remarks 
+-------------------+--------------+------+-----+---------+---------
+ id                | BIGINT(19)   | NO   | PRI |         | id      
+ title             | VARCHAR(255) | NO   |     |         | 征文活动主题说明
+ begin_time        | DATETIME(19) | NO   |     |         | 活动开始时间  
+ end_time          | DATETIME(19) | NO   |     |         | 活动结束时间  
+ showCode          | INT(10)      | NO   |     |         | 说明是否显示（0不显示，1显示）
+ participateClaim  | VARCHAR(255) | NO   |     |         | 征文参赛资格要求
+ worksClaim        | VARCHAR(255) | NO   |     |         | 作品要求    
+ participateManner | VARCHAR(111) | NO   |     |         | 参赛方式    
+-------------------+--------------+------+-----+---------+---------
+
+Table: wx_paper
+----------------+--------------+------+-----+---------+---------
+ Field          | Type         | Null | Key | Default | Remarks 
+----------------+--------------+------+-----+---------+---------
+ id             | BIGINT(19)   | NO   | PRI |         | 主键      
+ openid         | VARCHAR(20)  | NO   |     |         | 小程序用户openid
+ title          | VARCHAR(111) | NO   |     |         | 征文标题    
+ content        | VARCHAR(255) | YES  |     |         | 征文内容    
+ path           | VARCHAR(111) | YES  |     |         | 征文存储地址  
+ status         | BIGINT(19)   | NO   |     |         | 征文状态（默认状态为待审核0，已获奖1，已通过2）
+ uservote       | BIGINT(19)   | YES  |     |         | 其他用户投票分数
+ creation_time  | DATETIME(19) | NO   |     |         | 创建时间    
+ credentials_id | BIGINT(19)   | YES  |     |         | 获奖证书id  
+ expertfraction | BIGINT(19)   | YES  |     |         | 专家评分    
+----------------+--------------+------+-----+---------+---------
+
+Table: wx_question_bank
+-------------+--------------+------+-----+---------+---------
+ Field       | Type         | Null | Key | Default | Remarks 
+-------------+--------------+------+-----+---------+---------
+ id          | BIGINT(19)   | NO   | PRI |         | 主键      
+ type        | VARCHAR(32)  | NO   |     |         | 题型(字典)  
+ info        | VARCHAR(255) | NO   |     |         | 题目内容    
+ analysis    | TEXT(65535)  | YES  |     |         | 答案解析    
+ status      | BIT          | NO   |     |         | 启用状态    
+ create_time | DATETIME(19) | NO   |     |         | 创建时间    
+ update_time | DATETIME(19) | YES  |     |         | 修改时间    
+ create_user | INT(10)      | NO   |     |         | 创建用户    
+ update_user | INT(10)      | YES  |     |         | 修改用户    
+-------------+--------------+------+-----+---------+---------
+
+Table: wx_questionnaire
+-------------+--------------+------+-----+---------+---------
+ Field       | Type         | Null | Key | Default | Remarks 
+-------------+--------------+------+-----+---------+---------
+ id          | BIGINT(19)   | NO   | PRI |         | 主键      
+ title       | VARCHAR(150) | NO   |     |         | 名称      
+ info        | TEXT(65535)  | YES  |     |         | 内容      
+ create_time | DATETIME(19) | YES  |     |         | 创建时间    
+-------------+--------------+------+-----+---------+---------
+
+Table: wx_user_questionnaire
+-------------+--------------+------+-----+---------+---------
+ Field       | Type         | Null | Key | Default | Remarks 
+-------------+--------------+------+-----+---------+---------
+ id          | BIGINT(19)   | NO   | PRI |         | 主键      
+ user_id     | BIGINT(19)   | NO   |     |         | 用户ID    
+ qid         | BIGINT(19)   | NO   |     |         | 问卷ID    
+ title       | VARCHAR(150) | NO   |     |         | 问卷名称    
+ answer      | TEXT(65535)  | YES  |     |         | 答题内容    
+ create_time | DATETIME(19) | YES  |     |         | 创建时间    
+-------------+--------------+------+-----+---------+---------
+

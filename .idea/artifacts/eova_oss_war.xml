@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="eova-oss:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <module>eova-oss</module>
+        <packaging>war</packaging>
+      </options>
+    </properties>
+    <root id="archive" name="eova-oss.war">
+      <element id="artifact" artifact-name="eova-oss:war exploded" />
+    </root>
+  </artifact>
+</component>
