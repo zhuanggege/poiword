@@ -34,7 +34,6 @@ import jodd.util.StringUtil;
 
 public class TestController {
 	
-	//主线任务
 	private static TestQuestions tqQuestions;
 		
 	public static final String FILEPATH = "C://Users//lenovo//Desktop//题库(1).docx";
