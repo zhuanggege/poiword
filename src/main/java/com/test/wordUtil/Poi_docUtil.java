@@ -21,6 +21,12 @@ import org.apache.poi.xwpf.extractor.XWPFWordExtractor;
  */
 public class Poi_docUtil {
 	
+	/**
+	 * POI 读取  word,保留空格和回车样式
+	 * @param path
+	 * @return
+	 * @throws Exception
+	 */
 	public static String readWord(String path) throws Exception {
         String buffer = "";
         try {

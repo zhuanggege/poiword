@@ -28,6 +28,7 @@ import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.PreparedStatement;
 import com.test.model.QuestionBank;
 import com.test.model.TestQuestions;
+import com.test.wordUtil.Poi_docUtil;
 
 import jodd.util.StringUtil;
 
@@ -54,19 +55,34 @@ public class TestController {
 	 */
 	public static void main(String[] args){
 		
-    	String text = read(FILEPATH);
+//    	String text = read(FILEPATH);
+		String text = null;
+    	try {
+			text = Poi_docUtil.readWord(FILEPATH);
+			LogKit.info(text.toString());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     	
-    	//----------------------------------单选题---------------------------------------
-    	String xztContent = getContent(text,XZT,PDT);
-    	List<TestQuestions> list2 = getSingleContent(xztContent, XZTN,XZT);
-    	LogKit.info(list2.toString());
-    	add(list2,XZT);
-    	
+    	try {
+		//----------------------------------单选题---------------------------------------
+    		String xztContent = getContent(text,XZT,PDT);
+        	List<TestQuestions> list2 = getSingleContent(xztContent, XZTN,XZT);
+        	LogKit.info(list2.toString());
+//        	add(list2,XZT);
+        	
     	//----------------------------------多选题---------------------------------------
-    	String pdtContent = getContent(text,PDT,null);
-    	List<TestQuestions> list = getSingleContent(pdtContent,PDTN,PDT);
-    	LogKit.info(list.toString());
-    	add(list, PDT);
+        	String pdtContent = getContent(text,PDT,null);
+        	List<TestQuestions> list = getSingleContent(pdtContent,PDTN,PDT);
+        	LogKit.info(list.toString());
+//        	add(list, PDT);
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+    	
+    	
 	}
 	
 	public static void add(List<TestQuestions> list ,String tag) {
@@ -140,7 +156,7 @@ public class TestController {
 	 * @param endTag   
 	 * @return
 	 */
-	public static String getContent(String text,String tag,String endTag){
+	public static String getContent(String text,String tag,String endTag)throws Exception{
 		String bt = "";
 		int btIndex;
 		int btLastIndex;
@@ -166,7 +182,7 @@ public class TestController {
 	 * @return
 	 */
 	
-	public static List<TestQuestions> getSingleContent(String text,int end,String tag) {
+	public static List<TestQuestions> getSingleContent(String text,int end,String tag) throws Exception {
 		List<TestQuestions> list = new ArrayList<>();
 		String bs = "";
 		int bsBegin;
