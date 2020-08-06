@@ -1,5 +1,8 @@
 package com.test.model;
 
+import java.util.List;
+import java.util.Map;
+
 import com.jfinal.plugin.activerecord.Model;
 
 /**
@@ -16,9 +19,38 @@ public class TestQuestions{
 	 * 答案
 	 */
 	private String answer;
+	/**
+	 * 类型
+	 */
+	private int type;
+	/**
+	 * 是否启用
+	 */
+	private int enable;
+	/**
+	 * 选项
+	 */
+	private Map<String, String> optionsList;
 	
 	
-	
+	public int getEnable() {
+		return enable;
+	}
+	public void setEnable(int enable) {
+		this.enable = enable;
+	}
+	public Map<String, String> getOptionsList() {
+		return optionsList;
+	}
+	public void setOptionsList(Map<String, String> optionsList) {
+		this.optionsList = optionsList;
+	}
+	public int getType() {
+		return type;
+	}
+	public void setType(int type) {
+		this.type = type;
+	}
 	public String getTopic() {
 		return topic;
 	}
@@ -33,7 +65,8 @@ public class TestQuestions{
 	}
 	@Override
 	public String toString() {
-		return "TestQuestions [topic=" + topic + ", answer=" + answer + "]";
+		return "TestQuestions [topic=" + topic + ", answer=" + answer + ", type=" + type + ", enable=" + enable
+				+ ", optionsList=" + optionsList + "]";
 	}
 	
 	

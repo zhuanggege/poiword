@@ -9,7 +9,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.poi.POIXMLDocument;
 import org.apache.poi.POIXMLTextExtractor;
@@ -28,10 +30,16 @@ import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.PreparedStatement;
 import com.test.model.QuestionBank;
 import com.test.model.TestQuestions;
+import com.test.wordUtil.ExcelUtil;
 import com.test.wordUtil.Poi_docUtil;
 
 import jodd.util.StringUtil;
 
+/**
+ * 使用poi获取word，创建Excel表
+ * @author lenovo
+ *
+ */
 public class TestController {
 	
 	//主线任务
@@ -61,7 +69,6 @@ public class TestController {
 		String text = null;
     	try {
 			text = Poi_docUtil.readWord(FILEPATH);
-			LogKit.info(text.toString());
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -71,13 +78,17 @@ public class TestController {
 		//----------------------------------单选题---------------------------------------
     		String xztContent = getContent(text,XZT,PDT);
         	List<TestQuestions> list2 = getSingleContent(xztContent, XZTN,XZT);
-        	LogKit.info(list2.toString());
+        	List<TestQuestions> getPDTList = getPDTList(list2,XZT);
+    		ExcelUtil.readData(getPDTList);
+    		//插入数据库
 //        	add(list2,XZT);
         	
     	//----------------------------------多选题---------------------------------------
         	String pdtContent = getContent(text,PDT,null);
         	List<TestQuestions> list = getSingleContent(pdtContent,PDTN,PDT);
-        	LogKit.info(list.toString());
+        	List<TestQuestions> getList2 = getPDTList(list,PDT);
+        	ExcelUtil.readData(getList2);
+        	//插入数据库
 //        	add(list, PDT);
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -86,7 +97,79 @@ public class TestController {
     	
     	
 	}
+	/**
+	 * 多选题的内容拆分
+	 * @param list
+	 * @return
+	 */
+	public static List<TestQuestions> getPDTList(List<TestQuestions> list,String passPDT) {
+		
+		for (int i = 0; i < list.size(); i++) {
+			Map<String , String> optionsList = new HashMap<String, String>();
+			String topic = list.get(i).getTopic();
+			String[] split = topic.split("A");
+			list.get(i).setTopic(split[0]);
+			
+			String[] split2 = split[1].trim().split("\\．");
+			for (int j = 1; j < split2.length; j++) {
+				
+				if(split2[j].indexOf('B')>-1) {
+					optionsList.put("A", split2[j].substring(0, split2[j].indexOf('B')));
+					if(j == split2.length-2) {
+						optionsList.put("B", split2[j+1]);
+						break;
+					}
+				}else if(split2[j].indexOf('C')>-1){
+					optionsList.put("B", split2[j].substring(0, split2[j].indexOf('C')));
+					if(j == split2.length-2) {
+						optionsList.put("C", split2[j+1]);
+						break;
+					}
+				}else if(split2[j].indexOf('D')>-1){
+					optionsList.put("C", split2[j].substring(0, split2[j].indexOf('D')));
+					if(j == split2.length-2) {
+						optionsList.put("D", split2[j+1]);
+						break;
+					}
+				}else if(split2[j].indexOf('E')>-1) {
+					optionsList.put("D", split2[j].substring(0, split2[j].indexOf('E')));
+					if(j == split2.length-2) {
+						optionsList.put("E", split2[j+1]);
+						break;
+					}
+				}else if(split2[j].indexOf('F')>-1) {
+					optionsList.put("E", split2[j].substring(0, split2[j].indexOf('F')));
+					if(j == split2.length-2) {
+						optionsList.put("F", split2[j+1]);
+						break;
+					}
+				}else if(split2[j].indexOf('G')>-1) {
+					optionsList.put("F", split2[j].substring(0, split2[j].indexOf('G')));
+					if(j == split2.length-2) {
+						optionsList.put("F", split2[j+1]);
+						break;
+					}
+				}
+			}
+			list.get(i).setOptionsList(optionsList);
+			list.get(i).setEnable(1);
+			if(StringUtil.equals(passPDT, PDT)) {
+				list.get(i).setType(1);
+			}else {
+				list.get(i).setType(0);
+			}
+			
+			
+		}
+		
+		return list;
+	}
 	
+	/**
+	 * 添加数据到数据库
+	 * @param list
+	 * @param tag
+	 */
 	public static void add(List<TestQuestions> list ,String tag) {
 		
 		
@@ -128,29 +211,6 @@ public class TestController {
 		
 		
 	}
-	
-	public static String read(String path){
-		File file = new File(path);
-		String buffer = "";
-        try {
-        	if (path.endsWith(".doc")) {
-                InputStream is = new FileInputStream(new File(path));
-                WordExtractor ex = new WordExtractor(is);
-                buffer = ex.getText();
-                ex.close();
-            } else if (path.endsWith(".docx")) {
-                OPCPackage opcPackage = POIXMLDocument.openPackage(path);
-                POIXMLTextExtractor extractor = new XWPFWordExtractor(opcPackage);
-                buffer = extractor.getText();
-                extractor.close();
-            }
-            return buffer;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-		return "";
-	}
-	
 	/**
 	 * 获取标签中的内容
 	 * @param text
@@ -177,7 +237,7 @@ public class TestController {
 	}
 	
 	/**
-	 * 内容解析，返回集合
+	 * 内容解析，返回集合list<TestQuestions>
 	 * @param text  内容
 	 * @param end   截取结束段
 	 * @param tag   单项标签名，（例如：题）
