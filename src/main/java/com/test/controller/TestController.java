@@ -22,7 +22,6 @@ import org.apache.poi.xwpf.usermodel.XWPFDocument;
 
 import com.alibaba.druid.util.JdbcUtils;
 import com.eova.common.utils.time.DateUtil;
-import com.google.common.base.Strings;
 import com.jfinal.kit.LogKit;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Record;
