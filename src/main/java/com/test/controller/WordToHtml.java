@@ -43,14 +43,14 @@ import org.apache.poi.hwpf.usermodel.Picture;
 public class WordToHtml {
 	
 	public static void main(String[] args) throws Throwable {
-		  final String path = "C://Users//lenovo//Desktop//";
+		  final String path = "C:\\Users\\lenovo\\Desktop\\";
 		  final String fileName1 = "附件：国家数字乡村试点申报书.doc";
 		  final String fileName = "海棠区湾坡村“乡村振兴”示范村建设情况简介.docx";
 		  final String htmlName = "123.html";
 		  //2003
 		  Word2003ToHtml(path+fileName1);
 		  //2007
-		  Word2007ToHtml(path,null);
+		  Word2007ToHtml(path+fileName,null);
 		  
 		 }
 	
@@ -140,7 +140,8 @@ public class WordToHtml {
 	 * @throws Exception
 	 */
 	public static Map<Object, Object> Word2007ToHtml(String filePath,String htmlName) throws Exception {
-		String path = filePath.split("\\\\")[0];
+//		String path = filePath.split("\\\\")[0];
+		String path = filePath.substring(0,filePath.lastIndexOf("\\"));
 		Map<Object, Object> map = new HashMap<Object, Object>();
         File f = new File(filePath);  
         if (!f.exists()) {  
@@ -173,12 +174,13 @@ public class WordToHtml {
                 String content = baos.toString();
                 map.put("document", document);
                 map.put("options", options);
+                map.put("content", content);
                 baos.close();
                 
             } else {  
                 System.out.println("Enter only MS Office 2007+ files");  
             }  
-        } 
+        }
         return map;
 	}
 	
