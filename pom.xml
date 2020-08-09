@@ -22,22 +22,22 @@
 	<!-- 添加zrq -->
 	<!-- word转pdf依赖 -->
 	<!-- https://mvnrepository.com/artifact/fr.opensagres.xdocreport/org.apache.poi.xwpf.converter.core -->
-	<dependency>
+	<!-- <dependency>
 	    <groupId>fr.opensagres.xdocreport</groupId>
 	    <artifactId>org.apache.poi.xwpf.converter.core</artifactId>
 	    <version>1.0.6</version>
-	</dependency>
+	</dependency> -->
 	<!-- https://mvnrepository.com/artifact/fr.opensagres.xdocreport/org.apache.poi.xwpf.converter.xhtml -->
 	<dependency>
 	    <groupId>fr.opensagres.xdocreport</groupId>
 	    <artifactId>org.apache.poi.xwpf.converter.xhtml</artifactId>
 	    <version>1.0.6</version>
 	</dependency>
-	<dependency>
+	<!-- <dependency>
             <groupId>fr.opensagres.xdocreport</groupId>
             <artifactId>org.apache.poi.xwpf.converter.pdf</artifactId>
             <version>1.0.4</version>
-        </dependency>
+        </dependency> -->
         <dependency>
             <groupId>org.apache.poi</groupId>
             <artifactId>poi</artifactId>
