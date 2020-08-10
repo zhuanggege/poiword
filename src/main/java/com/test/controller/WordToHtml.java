@@ -45,13 +45,15 @@ public class WordToHtml {
 	public static void main(String[] args) throws Throwable {
 		  final String path = "C:\\Users\\lenovo\\Desktop\\";
 		  final String fileName1 = "附件：国家数字乡村试点申报书.doc";
-		  final String fileName = "海棠区湾坡村“乡村振兴”示范村建设情况简介.docx";
+		  final String fileName = "123.docx";
 		  final String htmlName = "123.html";
+		  final String htmlName1 = "1234.html";
 		  //2003
-		  Word2003ToHtml(path+fileName1);
+		  String html = Word2003ToHtml(path+fileName1);
+		  StorageLocal2003(path+htmlName,html);
 		  //2007
-		  Word2007ToHtml(path+fileName,null);
-		  
+		  Map<Object, Object> word2007ToHtml = Word2007ToHtml(path+fileName,null);
+		  StorgeLoca2007(path+htmlName1,word2007ToHtml);
 		 }
 	
 	/**
@@ -72,9 +74,9 @@ public class WordToHtml {
 	 * @param map         转2007word后的属性
 	 * @throws Exception
 	 */
-	public static void StorgeLoca2007(String StorgePath,String htmlName,Map<Object, Object> map) throws Exception {
+	public static void StorgeLoca2007(String StorgePath,Map<Object, Object> map) throws Exception {
 //		 3) 将 XWPFDocument转换成XHTML  
-		  OutputStream out = new FileOutputStream(new File(StorgePath + htmlName));  
+		  OutputStream out = new FileOutputStream(new File(StorgePath));  
 		  XHTMLConverter.getInstance().convert((XWPFDocument)map.get("document"), out, (XHTMLOptions)map.get("options"));  
 	}
 	
@@ -127,10 +129,13 @@ public class WordToHtml {
 		  serializer.transform(domSource, streamResult);
 		  
 		  String content = baos.toString();
-		  
+		  String b1 = "b1{align:center}";
+		  String start = content.substring(0, content.indexOf(".b1"));
+		  String end = content.substring(content.indexOf(".b2") );
+		  String newContent = start+"."+b1+end;
 		  outStream.close();
 		  baos.close();
-		  return content;
+		  return newContent;
 	}
 	/***
 	 * office2007转html
