@@ -20,6 +20,13 @@
 
 	<dependencies>
 	<!-- 添加zrq -->
+	<!-- https://mvnrepository.com/artifact/it.sauronsoftware.cron4j/cron4j -->
+	<dependency>
+	    <groupId>it.sauronsoftware.cron4j</groupId>
+	    <artifactId>cron4j</artifactId>
+	    <version>2.2.5</version>
+	</dependency>
+	
 	<!-- word转pdf依赖 -->
 	<!-- https://mvnrepository.com/artifact/fr.opensagres.xdocreport/org.apache.poi.xwpf.converter.core -->
 	<!-- <dependency>

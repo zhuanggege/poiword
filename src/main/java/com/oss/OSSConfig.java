@@ -14,7 +14,10 @@ import com.eova.interceptor.LoginInterceptor;
 import com.eova.user.UserController;
 import com.jfinal.config.Plugins;
 import com.jfinal.config.Routes;
+import com.jfinal.kit.PathKit;
+import com.jfinal.kit.PropKit;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
+import com.jfinal.plugin.cron4j.Cron4jPlugin;
 import com.oss.global.BaseMetaObjectIntercept;
 import com.oss.global.GlobalEovaIntercept;
 import com.oss.model.Address;
@@ -23,7 +26,10 @@ import com.oss.model.UserInfo;
 import com.oss.model.Users;
 import com.oss.product.ProductController;
 import com.oss.test.TestController;
+import com.test.config.Timer;
 import com.test.model._EssayMappingKit;
+import com.test.routes.FrontRoutes;
+import com.test.sqltemplate.SqlTemplate;
 
 public class OSSConfig extends EovaConfig {
 
@@ -48,6 +54,8 @@ public class OSSConfig extends EovaConfig {
 		LoginInterceptor.excludes.add("/init");
 		LoginInterceptor.excludes.add("/code");
 		// LoginInterceptor.excludes.add("/xxxx/**");
+		//路由分离
+		me.add(new FrontRoutes());
 	}
 
 	/**
@@ -65,7 +73,10 @@ public class OSSConfig extends EovaConfig {
 		main.addMapping("address", Address.class);
 		main.addMapping("orders", Orders.class);
 		_EssayMappingKit.mapping(main);
-
+		//jfinal3.5以下的版本添加，3.6去掉（默认在class path：src/main/resources中找）
+		main.setBaseSqlTemplatePath(PathKit.getRootClassPath());
+		//添加SQL模板
+		SqlTemplate.add(main);
 		// 获取其它数据源的ARP
 		// ActiveRecordPlugin xxx = arps.get("xxx");
 	}
@@ -75,7 +86,9 @@ public class OSSConfig extends EovaConfig {
 	 */
 	@Override
 	protected void plugin(Plugins plugins) {
-		// 添加需要的插件
+		// 添加需要的插件\
+//		Cron4jPlugin cp = new Cron4jPlugin(PropKit.use("/default/timer.txt"));
+//		plugins.add(cp);
 	}
 
 	/**
